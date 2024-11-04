@@ -37,7 +37,7 @@ struct ContentView: View {
 
 func getMoviesList(){
     
-    guard let weatherURL = Constants.Urls.urlForMovieList() else { return}
+    guard let weatherURL = Constants.Urls.urlForMovieList(languague: "en") else { return}
     
     let weatherResource = Resource<MovieListResponse>(url: weatherURL){
         
@@ -63,7 +63,7 @@ func getMoviesList(){
 func getMovieDetails(){
     
     //Valor de ID chinomatico para probar las respuestas del URL
-    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: 1184918) else {return}
+    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: 1184918, languague: "en") else {return}
     
     let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
         
