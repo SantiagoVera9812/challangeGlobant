@@ -9,83 +9,49 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var inputText: String = ""
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text(
-                 "https://api.themoviedb.org/3/movie/popular?api_key=176de15e8c8523a92ff640f432966c9c&language=es"
-                  )
-            Text("https://api.themoviedb.org/3/movie/1184918?api_key=752cd23fdb3336557bf3d8724e115570&language=es")
+            
+            TextField("Enter something...", text: $inputText)
+                          .textFieldStyle(RoundedBorderTextFieldStyle()) // Apply a rounded border style
+                          
+            
+            HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+            
+            MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 5.7)
+            
+            Spacer()
             
         }
         .padding()
         //Simplemente se quiere probar la respuesta de los API endpoints
         .onAppear(){
-            getMoviesList()
-            getMovieDetails()
-        }
-    }
-    
-    
-    
-    
-}
-
-//Funciones para usar las URLS vistas
-
-func getMoviesList(){
-    
-    guard let weatherURL = Constants.Urls.urlForMovieList(languague: "en") else { return}
-    
-    let weatherResource = Resource<MovieListResponse>(url: weatherURL){
-        
-        data in
-        
-        let weatherResponse = try?
-        JSONDecoder().decode(MovieListResponse.self, from: data)
-        
-        return weatherResponse
-    }
-    
-    WebService().load(resource: weatherResource){
-        
-        (result) in
-        if let weatherResource = result {
             
-            print(weatherResource)
+            fetchMovieList { movieListResponse in
+                if let movies = movieListResponse {
+                    
+                    print(movies)
+                    
+                } else {
+                    print("Failed to fetch movies.")
+                }
+            }
+            
+            fetchMovieDetailsList{
+                details in
+                if let movieDetail = details{
+                    print(movieDetail)
+                } else {
+                    print("Failed to fetch movie detail")
+                }
+            }
         }
     }
-    
+
 }
 
-func getMovieDetails(){
-    
-    //Valor de ID chinomatico para probar las respuestas del URL
-    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: 1184918, languague: "en") else {return}
-    
-    let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
-        
-        data in
-        
-        let weatherResponse = try?
-        JSONDecoder().decode(MovieDetailsResponse.self, from: data)
-        
-        return weatherResponse
-        
-    }
-    
-    WebService().load(resource: weatherResource){
-        
-        (result) in
-        
-        if let weatherResource = result{
-            
-            print(weatherResource)
-        }
-    }
-}
 
 #Preview {
     ContentView()
