@@ -40,7 +40,7 @@ struct MovieListViewCell: View {
                         .padding(.top, 5)
                 }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                
             }
         }
         .background(.ultraThinMaterial)

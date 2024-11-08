@@ -22,27 +22,36 @@ struct ToolBarHeaderView: View {
     
     var body: some View {
         
-        HStack{
+            VStack{
+                
+                Spacer()
+                
+                HStack{
+                    
+                    Image(systemName: "photo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .foregroundColor(.blue)
+                        .padding()
+                    
+                    Spacer()
+                    
+                    
+                    Image(systemName: "star")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.blue)
+                        .frame(width: 60, height: 60)
+                        .padding()
+                    
+                }
+                
+                
+            }
             
-            Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .foregroundColor(.gray)
-                            .padding()
-                            
-            
-            Spacer()
-            Image(systemName: "star")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.gray)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            }
-        .padding()
+        }
         
-    }
 }
 
 struct StarRatingView: View {
