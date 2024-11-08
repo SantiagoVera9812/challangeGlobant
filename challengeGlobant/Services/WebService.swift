@@ -13,6 +13,8 @@ struct Resource<T> {
     let parse: (Data) -> T?
 }
 
+//Funciones para usar las URLS vistas
+
 final class WebService{
     
     func load<T>(resource: Resource<T>, completion: @escaping (T?) -> ()){
@@ -33,3 +35,4 @@ final class WebService{
         
     }
 }
+

@@ -20,5 +20,11 @@ struct Constants {
             
             return URL(string: "https://api.themoviedb.org/3/movie/\(idMovie)?api_key=752cd23fdb3336557bf3d8724e115570&language=\(languague)") ?? nil
         }
+        
+        static func urlForMoviePoster(poster_path: String) -> URL? {
+            
+            return URL(string:
+                        "https://image.tmdb.org/t/p/w500\(poster_path)") ?? nil
+        }
     }
 }
