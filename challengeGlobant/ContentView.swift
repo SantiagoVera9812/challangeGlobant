@@ -9,23 +9,47 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var inputText: String = ""
+        @State private var inputText: String = ""
+        
+        var body: some View {
+            VStack {
+                TextField("Enter something...", text: $inputText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                ScrollView {
+                    VStack {
+                        MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 5.7)
+                        MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 8.7)
+                        MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 6.7)
+                        
+                        GridLayout {
+                            GridRow {
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                            }
+                            GridRow {
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                            }
+                            GridRow {
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                                HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
+                            }
+                        }.padding(0)
+                        .padding(0)
+                    }
+                }
+                
+                Spacer(minLength: 0)
+                
+                ToolBarHeaderView()
+                    .padding()
+                    
+                
+                Spacer(minLength: 0)
+            }
+            .padding()
     
-    var body: some View {
-        VStack {
-            
-            TextField("Enter something...", text: $inputText)
-                          .textFieldStyle(RoundedBorderTextFieldStyle()) // Apply a rounded border style
-                          
-            
-            HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-            
-            MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 5.7)
-            
-            Spacer()
-            
-        }
-        .padding()
         //Simplemente se quiere probar la respuesta de los API endpoints
         .onAppear(){
             

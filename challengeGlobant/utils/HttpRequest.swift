@@ -64,23 +64,27 @@ func getMovieDetails(completion: @escaping (MovieDetailsResponse?) -> Void) {
     }
 }
 
-struct MoviePosterView: View {
-    let posterPath: String
-    
-    var body: some View {
+
+
+
+public func getAsyncImage(posterPath: String) -> some View {
         if let url = Constants.Urls.urlForMoviePoster(poster_path: posterPath) {
-            AsyncImage(url: url) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 150)
-                    .cornerRadius(8)
-            } placeholder: {
-                ProgressView() 
-            }
+            return AnyView(
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 150)
+                        .cornerRadius(8)
+                } placeholder: {
+                    ProgressView()
+                }
+            )
+        } else {
+            // Return a placeholder or empty view if the URL is nil
+            return AnyView(EmptyView())
         }
     }
     
-}
 
 
