@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+
+
 struct ContentView: View {
+    
+    
     
         @State private var inputText: String = ""
         
@@ -39,9 +43,10 @@ struct ContentView: View {
                             }.padding(0)
                                 .padding(0)
                         }
+                        
+                    
                     }
                     
-                    Spacer(minLength: 0)
                     
                     ToolBarHeaderView()
                         .padding()
@@ -52,7 +57,7 @@ struct ContentView: View {
                        
                     
                     
-                    Spacer(minLength: 0)
+                    
                 }
                 .padding()
             }
@@ -61,24 +66,9 @@ struct ContentView: View {
         //Simplemente se quiere probar la respuesta de los API endpoints
         .onAppear(){
             
-            fetchMovieList { movieListResponse in
-                if let movies = movieListResponse {
-                    
-                    print(movies)
-                    
-                } else {
-                    print("Failed to fetch movies.")
-                }
-            }
+            fetchMovieList(language: "en")
             
-            fetchMovieDetailsList{
-                details in
-                if let movieDetail = details{
-                    print(movieDetail)
-                } else {
-                    print("Failed to fetch movie detail")
-                }
-            }
+            fetchMovieDetailsList(idMovie: 420634, language: "en")
         }
     }
 

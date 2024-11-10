@@ -7,18 +7,29 @@
 
 import Foundation
 
-func fetchMovieList(completion: @escaping (MovieListResponse?) -> Void) {
-    getMoviesList { movieListResponse in
+
+
+func fetchMovieList(language: String) {
+        
+    getMoviesList(language: language) { movieListResponse in
         if let movies = movieListResponse {
-            print(movies)
+            
+            movies.results.forEach{movieFound in
+                
+                print(movieFound)
+            }
+            
         } else {
             print("Failed to fetch movies.")
+            
         }
     }
+    
 }
 
-func fetchMovieDetailsList(completion: @escaping (MovieListResponse?) -> Void) {
-    getMovieDetails {movieListResponse in
+func fetchMovieDetailsList(idMovie: Int, language: String) {
+    
+    getMovieDetails(idMovie: idMovie, language: language) {movieListResponse in
         if let movies = movieListResponse {
             print(movies)
         } else {

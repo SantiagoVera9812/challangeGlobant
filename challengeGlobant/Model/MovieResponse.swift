@@ -20,6 +20,8 @@ struct MovieResponse: Decodable{
     let release_date: String
     let title: String
     let vote_average: Float
+    let poster_path: String
+    
 }
 
 struct MovieDetailsResponse: Decodable{
@@ -30,6 +32,7 @@ struct MovieDetailsResponse: Decodable{
     let release_date: String
     let overview: String
     let genres: [Genre]
+    let poster_path: String
 }
 
 struct Genre: Decodable{

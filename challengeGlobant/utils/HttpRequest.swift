@@ -11,9 +11,9 @@ import SwiftUI
 
 //Funciones para usar las URLS vistas
 
-func getMoviesList(completion: @escaping (MovieListResponse?) -> Void){
+func getMoviesList(language: String, completion: @escaping (MovieListResponse?) -> Void){
     
-    guard let weatherURL = Constants.Urls.urlForMovieList(languague: "en") else { return}
+    guard let weatherURL = Constants.Urls.urlForMovieList(languague: language) else { return}
     
     let weatherResource = Resource<MovieListResponse>(url: weatherURL){
         
@@ -37,10 +37,10 @@ func getMoviesList(completion: @escaping (MovieListResponse?) -> Void){
     
 }
 
-func getMovieDetails(completion: @escaping (MovieDetailsResponse?) -> Void) {
+func getMovieDetails(idMovie: Int, language: String, completion: @escaping (MovieDetailsResponse?) -> Void) {
     
     //Valor de ID chinomatico para probar las respuestas del URL
-    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: 1184918, languague: "en") else {return}
+    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: idMovie, languague: language) else {return}
     
     let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
         
@@ -63,9 +63,6 @@ func getMovieDetails(completion: @escaping (MovieDetailsResponse?) -> Void) {
                 }
     }
 }
-
-
-
 
 public func getAsyncImage(posterPath: String) -> some View {
         if let url = Constants.Urls.urlForMoviePoster(poster_path: posterPath) {
