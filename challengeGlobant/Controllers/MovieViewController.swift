@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 class MovieViewController: ObservableObject {
     
@@ -15,6 +15,7 @@ class MovieViewController: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errormESSAGE: String? = nil
     
+
     init(){
         
         fetchMovieList(language: "en")
@@ -23,6 +24,10 @@ class MovieViewController: ObservableObject {
     }
     
     private let movieService = MovieService()
+    
+    func getPosterView(for posterPath: String) -> some View {
+           return movieService.getAsyncImage(posterPath: posterPath)
+       }
     
     func fetchMovieList(language: String) {
         

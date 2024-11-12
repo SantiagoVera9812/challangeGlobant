@@ -11,6 +11,7 @@ import SwiftUI
 struct ListVerticallyMovieViews: View {
     
     let listOfMovies: [MovieResponse]
+    let imageController: MovieViewController
     
     var body: some View {
         
@@ -22,7 +23,8 @@ struct ListVerticallyMovieViews: View {
                         titulo: movieFound.title,
                         fechaDeLanzamiento: movieFound.release_date,
                         voteAvarage: movieFound.vote_average,
-                        posterPath: movieFound.poster_path
+                        posterPath: movieFound.poster_path,
+                        imageController: imageController
                     )
                 }
             }
@@ -34,12 +36,14 @@ struct ListVerticallyMovieViews: View {
 struct ListHorizontalMovieViews: View {
     
     let listOfMovies: [MovieResponse]
+    let imageController: MovieViewController
     
     var body: some View {
         ScrollView {
             GridLayout {
                 ForEach(listOfMovies, id: \.id) { movieFound in
-                            HorizontalMovieView(title: movieFound.title, fechaLanzamiento: movieFound.release_date, posterPath: movieFound.poster_path)
+                            HorizontalMovieView(title: movieFound.title, fechaLanzamiento: movieFound.release_date, posterPath: movieFound.poster_path,
+                                                imageController: imageController)
                         }
                     }
                 }

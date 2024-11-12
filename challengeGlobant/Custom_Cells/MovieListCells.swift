@@ -17,13 +17,14 @@ struct MovieListViewCell: View{
     let fechaDeLanzamiento: String
     let voteAvarage: Float
     let posterPath: String
+    let imageController: MovieViewController
     
     var body: some View {
         
         VStack{
             HStack {
                 
-                MoviePosterView(posterPath: posterPath)
+                MoviePosterView(posterPath: posterPath, controller: imageController)
                 
                 VStack(alignment: .leading) {
                     
@@ -58,13 +59,14 @@ struct HorizontalMovieView: View {
     let title: String
     let fechaLanzamiento: String
     let posterPath: String
+    let imageController: MovieViewController
     
     var body: some View {
         
         VStack{
             VStack {
                 
-                MoviePosterView(posterPath: posterPath)
+                MoviePosterView(posterPath: posterPath, controller: imageController)
                 
                 Text(title)
                     .font(.title)

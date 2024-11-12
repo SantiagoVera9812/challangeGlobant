@@ -33,10 +33,10 @@ struct ContentView: View {
                         let listOfMovies = controller.movieList
                         
                         
-                        ListVerticallyMovieViews(listOfMovies: listOfMovies)
+                        ListVerticallyMovieViews(listOfMovies: listOfMovies, imageController: controller)
                                 .padding()
                         
-                        ListHorizontalMovieViews(listOfMovies: listOfMovies)
+                        ListHorizontalMovieViews(listOfMovies: listOfMovies, imageController: controller)
                         
                         
                         Text(controller.movieDetails.overview)

@@ -11,13 +11,13 @@ import SwiftUI
 struct MoviePosterView: View {
     
     let posterPath: String
-    let movieService = MovieService()
+    @ObservedObject var controller: MovieViewController
     
     
     
     var body: some View {
         
-        movieService.getAsyncImage(posterPath: posterPath)
+        controller.getPosterView(for: posterPath)
     }
 }
 
