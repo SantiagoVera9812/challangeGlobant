@@ -14,62 +14,54 @@ struct ContentView: View {
     
     
         @State private var inputText: String = ""
-        
+    @ObservedObject var controller = MovieViewController()
         var body: some View {
             GeometryReader { geometry in
+                
+                
                 VStack {
+                    
+                    if controller.isLoading {
+                        ProgressView("Cargando Peliculas")
+                    } else if let errormESSAGE = controller.errormESSAGE {
+                        
+                        Text(errormESSAGE)
+                            .foregroundColor(.red)
+                            .multilineTextAlignment(.center)
+                    } else {
+                        
+                        let listOfMovies = controller.movieList
+                        
+                        
+                        ListVerticallyMovieViews(listOfMovies: listOfMovies)
+                                .padding()
+                        
+                        ListHorizontalMovieViews(listOfMovies: listOfMovies)
+                        
+                        
+                        Text(controller.movieDetails.overview)
+                        
+                       /* List(controller.movieList){
+                            movie in
+                            MovieListViewCell(titulo: movie.title, fechaDeLanzamiento: movie.release_date, voteAvarage: Double(movie.vote_average))
+                        } */
+                    }
+                    
                     TextField("Enter something...", text: $inputText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     
-                    ScrollView {
-                        VStack {
-                            MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 5.7)
-                            MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 8.7)
-                            MovieListViewCell(titulo: "titulo", fechaDeLanzamiento: "fecha lanzar", voteAvarage: 6.7)
-                            
-                            GridLayout {
-                                GridRow {
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                }
-                                GridRow {
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                }
-                                GridRow {
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                    HorizontalMovieView(title: "titulo", fechaLanzamiento: "fecha lanzar")
-                                }
-                            }.padding(0)
-                                .padding(0)
-                        }
-                        
-                    
-                    }
-                    
-                    
+        
                     ToolBarHeaderView()
                         .padding()
                         .frame(width: geometry.size.height * 0.1, height: geometry.size.height * 0.1)
                         .foregroundColor(.blue)
                         .background(.ultraThinMaterial)
                 
-                       
-                    
-                    
                     
                 }
                 .padding()
             }
-            
     
-        //Simplemente se quiere probar la respuesta de los API endpoints
-        .onAppear(){
-            
-            fetchMovieList(language: "en")
-            
-            fetchMovieDetailsList(idMovie: 420634, language: "en")
-        }
     }
 
 }
