@@ -12,6 +12,7 @@ struct ListVerticallyMovieViews: View {
     
     let listOfMovies: [MovieResponse]
     let imageController: MovieViewController
+    let onTapController: MovieViewController
     
     var body: some View {
         
@@ -20,11 +21,14 @@ struct ListVerticallyMovieViews: View {
             VStack {
                 ForEach(listOfMovies, id: \.id) { movieFound in
                     MovieListViewCell(
+                        id: movieFound.id,
                         titulo: movieFound.title,
                         fechaDeLanzamiento: movieFound.release_date,
                         voteAvarage: movieFound.vote_average,
                         posterPath: movieFound.poster_path,
-                        imageController: imageController
+                        imageController: imageController,
+                        controller: onTapController
+                        
                     )
                 }
             }
@@ -37,13 +41,19 @@ struct ListHorizontalMovieViews: View {
     
     let listOfMovies: [MovieResponse]
     let imageController: MovieViewController
+    let onTapController: MovieViewController
     
     var body: some View {
         ScrollView {
             GridLayout {
                 ForEach(listOfMovies, id: \.id) { movieFound in
-                            HorizontalMovieView(title: movieFound.title, fechaLanzamiento: movieFound.release_date, posterPath: movieFound.poster_path,
-                                                imageController: imageController)
+                            HorizontalMovieView(
+                                id: movieFound.id,
+                                title: movieFound.title,
+                                fechaLanzamiento: movieFound.release_date,
+                                posterPath: movieFound.poster_path,
+                                imageController: imageController,
+                                controller: onTapController)
                         }
                     }
                 }

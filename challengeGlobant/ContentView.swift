@@ -33,18 +33,17 @@ struct ContentView: View {
                         let listOfMovies = controller.movieList
                         
                         
-                        ListVerticallyMovieViews(listOfMovies: listOfMovies, imageController: controller)
+                        //Dos tipos de vistas para manejar como se muestra la informacion, manejar desde movviecontrollview
+                        
+                        ListVerticallyMovieViews(listOfMovies: listOfMovies, imageController: controller,
+                                                 onTapController: controller)
                                 .padding()
                         
-                        ListHorizontalMovieViews(listOfMovies: listOfMovies, imageController: controller)
+                        ListHorizontalMovieViews(listOfMovies: listOfMovies, imageController: controller, onTapController: controller)
                         
                         
                         Text(controller.movieDetails.overview)
                         
-                       /* List(controller.movieList){
-                            movie in
-                            MovieListViewCell(titulo: movie.title, fechaDeLanzamiento: movie.release_date, voteAvarage: Double(movie.vote_average))
-                        } */
                     }
                     
                     TextField("Enter something...", text: $inputText)

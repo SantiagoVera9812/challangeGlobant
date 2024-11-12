@@ -11,13 +11,13 @@ import SwiftUI
 
 struct MovieListViewCell: View{
     
-    
-    
+    let id: Int
     let titulo: String
     let fechaDeLanzamiento: String
     let voteAvarage: Float
     let posterPath: String
     let imageController: MovieViewController
+    @ObservedObject var controller: MovieViewController
     
     var body: some View {
         
@@ -42,10 +42,14 @@ struct MovieListViewCell: View{
                     
                     StarRatingView(rating: voteAvarage)
                         .padding(.top, 5)
+                    
                 }
                 .padding()
                 
             }
+        }
+        .onTapGesture {
+            controller.fetchMovieDetailsList(idMovie: id, language: "en")
         }
         .background(.ultraThinMaterial)
         .cornerRadius(12)
@@ -56,10 +60,13 @@ struct MovieListViewCell: View{
 
 struct HorizontalMovieView: View {
     
+    
+    let id: Int
     let title: String
     let fechaLanzamiento: String
     let posterPath: String
     let imageController: MovieViewController
+    @ObservedObject var controller: MovieViewController
     
     var body: some View {
         
@@ -78,6 +85,9 @@ struct HorizontalMovieView: View {
                 
             }
             .padding()
+        }
+        .onTapGesture {
+            controller.fetchMovieDetailsList(idMovie: id, language: "en")
         }
         .background(.ultraThinMaterial)
         .cornerRadius(12)
