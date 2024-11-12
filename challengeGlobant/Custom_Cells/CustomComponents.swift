@@ -9,11 +9,15 @@ import Foundation
 import SwiftUI
 
 struct MoviePosterView: View {
+    
     let posterPath: String
+    let movieService = MovieService()
+    
+    
     
     var body: some View {
         
-        getAsyncImage(posterPath: posterPath)
+        movieService.getAsyncImage(posterPath: posterPath)
     }
 }
 
@@ -55,8 +59,8 @@ struct ToolBarHeaderView: View {
 }
 
 struct StarRatingView: View {
-    var rating: Double
-    var maxRating: Double = 10 // Adjusted max rating to 5 for star ratings
+    var rating: Float
+    var maxRating: Float = 10 // Adjusted max rating to 5 for star ratings
     
     var body: some View {
         HStack(spacing: 3) {

@@ -9,18 +9,21 @@ import Foundation
 import SwiftUI
 
 
-struct MovieListViewCell: View {
+struct MovieListViewCell: View{
+    
+    
     
     let titulo: String
     let fechaDeLanzamiento: String
-    let voteAvarage: Double
+    let voteAvarage: Float
+    let posterPath: String
     
     var body: some View {
         
         VStack{
             HStack {
                 
-                MoviePosterView(posterPath: "/63xYQj1BwRFielxsBDXvHIJyXVm.jpg")
+                MoviePosterView(posterPath: posterPath)
                 
                 VStack(alignment: .leading) {
                     
@@ -54,13 +57,14 @@ struct HorizontalMovieView: View {
     
     let title: String
     let fechaLanzamiento: String
+    let posterPath: String
     
     var body: some View {
         
         VStack{
             VStack {
                 
-                MoviePosterView(posterPath: "/cdV45bSUfjUSCW2GRl7LX8ani8p.jpg")
+                MoviePosterView(posterPath: posterPath)
                 
                 Text(title)
                     .font(.title)

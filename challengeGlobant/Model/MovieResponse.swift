@@ -14,7 +14,7 @@ struct MovieListResponse: Decodable{
     let results: [MovieResponse]
 }
 
-struct MovieResponse: Decodable{
+struct MovieResponse: Decodable {
     
     let id: Int
     let release_date: String

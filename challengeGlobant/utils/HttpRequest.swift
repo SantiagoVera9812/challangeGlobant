@@ -11,60 +11,62 @@ import SwiftUI
 
 //Funciones para usar las URLS vistas
 
-func getMoviesList(language: String, completion: @escaping (MovieListResponse?) -> Void){
+class MovieService {
     
-    guard let weatherURL = Constants.Urls.urlForMovieList(languague: language) else { return}
-    
-    let weatherResource = Resource<MovieListResponse>(url: weatherURL){
+    func getMoviesList(language: String, completion: @escaping (MovieListResponse?) -> Void){
         
-        data in
+        guard let weatherURL = Constants.Urls.urlForMovieList(languague: language) else { return}
         
-        let weatherResponse = try?
-        JSONDecoder().decode(MovieListResponse.self, from: data)
+        let weatherResource = Resource<MovieListResponse>(url: weatherURL){
+            
+            data in
+            
+            let weatherResponse = try?
+            JSONDecoder().decode(MovieListResponse.self, from: data)
+            
+            return weatherResponse
+        }
         
-        return weatherResponse
-    }
-    
-    WebService().load(resource: weatherResource){
-        
-        result in
-                if let movieResponse = result {
-                    completion(movieResponse)
-                } else {
-                    completion(nil)
-                }
-    }
-    
-}
-
-func getMovieDetails(idMovie: Int, language: String, completion: @escaping (MovieDetailsResponse?) -> Void) {
-    
-    //Valor de ID chinomatico para probar las respuestas del URL
-    guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: idMovie, languague: language) else {return}
-    
-    let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
-        
-        data in
-        
-        let weatherResponse = try?
-        JSONDecoder().decode(MovieDetailsResponse.self, from: data)
-        
-        return weatherResponse
+        WebService().load(resource: weatherResource){
+            
+            result in
+            if let movieResponse = result {
+                completion(movieResponse)
+            } else {
+                completion(nil)
+            }
+        }
         
     }
     
-    WebService().load(resource: weatherResource){
+    func getMovieDetails(idMovie: Int, language: String, completion: @escaping (MovieDetailsResponse?) -> Void) {
         
-        result in
-                if let movieResponse = result {
-                    completion(movieResponse)
-                } else {
-                    completion(nil)
-                }
+        //Valor de ID chinomatico para probar las respuestas del URL
+        guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: idMovie, languague: language) else {return}
+        
+        let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
+            
+            data in
+            
+            let weatherResponse = try?
+            JSONDecoder().decode(MovieDetailsResponse.self, from: data)
+            
+            return weatherResponse
+            
+        }
+        
+        WebService().load(resource: weatherResource){
+            
+            result in
+            if let movieResponse = result {
+                completion(movieResponse)
+            } else {
+                completion(nil)
+            }
+        }
     }
-}
-
-public func getAsyncImage(posterPath: String) -> some View {
+    
+    func getAsyncImage(posterPath: String) -> some View {
         if let url = Constants.Urls.urlForMoviePoster(poster_path: posterPath) {
             return AnyView(
                 AsyncImage(url: url) { image in
@@ -84,4 +86,4 @@ public func getAsyncImage(posterPath: String) -> some View {
     }
     
 
-
+}
