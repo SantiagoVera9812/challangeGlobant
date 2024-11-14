@@ -73,7 +73,6 @@ class MovieService {
                     image
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 100, height: 150)
                         .cornerRadius(8)
                 } placeholder: {
                     ProgressView()
