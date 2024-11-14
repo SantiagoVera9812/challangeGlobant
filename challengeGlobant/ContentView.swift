@@ -54,7 +54,7 @@ struct ContentView: View {
                                     ListVerticallyMovieViews(listOfMovies: listOfMovies ?? [],
                                                              imageController: controller,
                                                              onTapController: controller)
-                                    .padding()
+                                    .padding(10)
                                     
                                 } else {
                                     

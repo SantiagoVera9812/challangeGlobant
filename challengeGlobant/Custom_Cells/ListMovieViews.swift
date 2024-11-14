@@ -36,8 +36,12 @@ struct ListVerticallyMovieViews: View {
                         controller: onTapController
                         
                     )
+                    
+                    Spacer(minLength: 20)
+                    
                 }
             }
+            
         }
         
     }

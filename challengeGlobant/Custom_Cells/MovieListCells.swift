@@ -54,7 +54,7 @@ struct MovieListViewCell: View{
         .background(.ultraThinMaterial)
         .cornerRadius(12)
         .shadow(radius: 5)
-        .padding()
+        
     }
 }
 
@@ -71,9 +71,10 @@ struct HorizontalMovieView: View {
     var body: some View {
         
         VStack{
+            
+            MoviePosterView(posterPath: posterPath, controller: imageController)
             VStack {
                 
-                MoviePosterView(posterPath: posterPath, controller: imageController)
                 
                 Text(title)
                     .font(.title)
