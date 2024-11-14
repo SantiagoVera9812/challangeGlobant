@@ -10,8 +10,13 @@ import SwiftUI
 
 class MovieViewController: ObservableObject {
     
-    @Published var movieList: [MovieResponse] = []
-    @Published var movieDetails: MovieDetailsResponse = MovieDetailsResponse(title: "", status: "", vote_average: 0.0, release_date: "", overview: "", genres: [], poster_path: "")
+    @Published var movieList: [MovieResponse]? = nil
+    @Published var movieDetails: MovieDetailsResponse? = nil {
+        willSet {
+            print(newValue as Any)
+            
+        }
+    }
     @Published var isLoading: Bool = false
     @Published var errormESSAGE: String? = nil
     
@@ -20,7 +25,6 @@ class MovieViewController: ObservableObject {
         
         fetchMovieList(language: "en")
         
-        fetchMovieDetailsList(idMovie: 912649, language: "en")
     }
     
     private let movieService = MovieService()
@@ -83,4 +87,12 @@ class MovieViewController: ObservableObject {
             }
         }
     }
+    
+    func defautlMovieDetailsValue() -> MovieDetailsResponse {
+        
+        return MovieDetailsResponse(title: "", status: "", vote_average: 0.0, release_date: "", overview: "", genres: [], poster_path: "")
+        
+    }
 }
+
+

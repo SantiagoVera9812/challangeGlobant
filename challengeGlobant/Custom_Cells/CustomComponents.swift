@@ -8,12 +8,25 @@
 import Foundation
 import SwiftUI
 
+struct NextButtom: View {
+    
+    @State var page: Int
+    
+    var body: some View {
+        
+        Button(action: {
+            page += 1
+            print(page)
+        }) {
+            Text("Next")
+        }
+    }
+}
+
 struct MoviePosterView: View {
     
     let posterPath: String
     @ObservedObject var controller: MovieViewController
-    
-    
     
     var body: some View {
         
@@ -24,37 +37,54 @@ struct MoviePosterView: View {
 
 struct ToolBarHeaderView: View {
     
+    @ObservedObject var controller: ToolBarViewController
+    
+        @State private var isPhotoActive: Bool = true
+    
     var body: some View {
         
-            VStack{
-                
-                Spacer()
-                
-                HStack{
-                    
-                    Image(systemName: "photo")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 60, height: 60)
-                        .foregroundColor(.blue)
-                        .padding()
-                    
-                    Spacer()
-                    
-                    
-                    Image(systemName: "star")
-                        .resizable()
-                        .scaledToFit()
-                        .foregroundColor(.blue)
-                        .frame(width: 60, height: 60)
-                        .padding()
-                    
-                }
-                
-                
-            }
+        VStack {
             
-        }
+            let background = RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(.white)
+                .shadow(radius: 5)
+            
+            
+            HStack {
+                Text(Image(systemName: "photo"))
+                    .padding()
+                    .background(background)
+                    .foregroundColor(isPhotoActive ? .blue : .gray)
+                    .onTapGesture {
+                        
+                        isPhotoActive = true
+                        
+                        controller.printActiveButton(isPhotoActive: isPhotoActive)
+                        
+                        
+                        
+                    }
+                
+                Text(Image(systemName: "star"))
+                    .padding()
+                    .background(background)
+                    .foregroundColor(isPhotoActive ? .gray : .blue)
+                    .onTapGesture {
+                        
+                        isPhotoActive = false
+                        controller.printActiveButton(isPhotoActive: isPhotoActive)
+                        
+                    }
+            }
+            .font(.largeTitle)
+            
+        }.frame(alignment: .bottom)
+            .padding(0)
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 5)
+    }
+        
         
 }
 
@@ -72,3 +102,4 @@ struct StarRatingView: View {
                     }
     }
 }
+

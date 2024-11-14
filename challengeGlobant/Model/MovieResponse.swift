@@ -30,7 +30,7 @@ struct MovieDetailsResponse: Decodable{
     let status: String
     let vote_average: Float
     let release_date: String
-    let overview: String
+    var overview: String
     let genres: [Genre]
     let poster_path: String
 }
