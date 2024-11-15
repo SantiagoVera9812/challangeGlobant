@@ -41,6 +41,7 @@ struct ListVerticallyMovieViews: View {
                     
                 }
             }
+            .scaledToFit()
             
         }
         
@@ -48,26 +49,36 @@ struct ListVerticallyMovieViews: View {
 }
 
 struct ListHorizontalMovieViews: View {
-    
-    let listOfMovies: [MovieResponse]
-    let imageController: MovieViewController
-    let onTapController: MovieViewController
-    
-    var body: some View {
-        ScrollView {
-            GridLayout {
-                ForEach(listOfMovies, id: \.id) { movieFound in
-                            HorizontalMovieView(
-                                id: movieFound.id,
-                                title: movieFound.title,
-                                fechaLanzamiento: movieFound.release_date,
-                                posterPath: movieFound.poster_path,
-                                imageController: imageController,
-                                controller: onTapController)
-                        }
-                    }
-                }
-                .padding()
+  let listOfMovies: [MovieResponse]
+  let imageController: MovieViewController
+  let onTapController: MovieViewController
+  // Define the number of columns for the grid
+  let columns = [
+    GridItem(.flexible(), spacing: 5),
+    GridItem(.flexible(), spacing: 5)
+  ]
+  var body: some View {
+    ScrollView {
+      LazyVGrid(columns: columns, spacing: 5) { // Uniform spacing between rows
+        ForEach(listOfMovies, id: \.id) { movieFound in
+          VStack {
+            HorizontalMovieView(
+              id: movieFound.id,
+              title: movieFound.title,
+              fechaLanzamiento: movieFound.release_date,
+              posterPath: movieFound.poster_path,
+              imageController: imageController,
+              controller: onTapController
+            )
+            .aspectRatio(2/3, contentMode: .fill) // Fixed aspect ratio for the images
+            .cornerRadius(12) // Rounded corners for each movie poster
+            .shadow(radius: 6) // Add shadow for a sleek look
+          }
+        }
+      }
+      .padding(5) // Padding around the grid
+      .scaledToFit()
     }
+  }
 }
 

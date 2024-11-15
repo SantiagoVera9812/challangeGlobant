@@ -72,8 +72,8 @@ class MovieService {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
-                        .scaledToFit()
                         .cornerRadius(8)
+                        .frame(width: 100, height: 150)
                 } placeholder: {
                     ProgressView()
                 }
