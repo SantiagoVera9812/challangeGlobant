@@ -8,7 +8,6 @@
 import SwiftUI
 
 
-
 struct ContentView: View {
     
     
@@ -17,24 +16,69 @@ struct ContentView: View {
     @State private var detailsText: String = "This is some details text."
     @ObservedObject var controller = MovieViewController()
     @ObservedObject var tapBarController = ToolBarViewController()
+    @State private var page: Int = 0
     
         var body: some View {
             GeometryReader { geometry in
                 
                 VStack {
                     
-                    
-                    
-                    if let movieDetails = controller.movieDetails {
+                  /*  if let movieDetails = controller.movieDetails {
                     
                         MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, imageController: controller)
                         
-                    }
+                    } */
                     
-                        TextField("Enter something...", text: $inputText)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    switch controller.movieListState {
+                            case .initial:
+                                EmptyView()
+                            case .loading:
+                                ProgressView("Loading...")
+                            case .empty:
+                                Text("No movies available.")
+                            case .businessError(_, let message):
+                                Text(message ?? "An error occurred.")
+                            case .success(let movies):
                         
-                        switch controller.isLoading {
+                        TextField("Enter something...", text: $inputText)
+                               .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        if(tapBarController.isPhotoActive){
+                            ListVerticallyMovieViews(listOfMovies: movies,
+                                                     imageController: controller,
+                                                     onTapController: controller)
+                            .padding(10)
+                            
+                        } else {
+                            
+                            ListHorizontalMovieViews(listOfMovies: movies, imageController: controller, onTapController: controller)
+                        }
+                        
+                        HStack {
+                                        BeforeButton(page: $page, controller: controller)
+                                        NextButton(page: $page, controller: controller)
+                                    }
+                        
+                        
+                                
+                            }
+                    
+                    switch controller.movieDetails {
+                    case .initial:
+                        EmptyView()
+                    case .loading:
+                        ProgressView("Loading...")
+                    case .empty:
+                        Text("No movies available.")
+                    case .success(let movieDetails):
+                        MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, imageController: controller)
+                        
+                    case .businessError(_, let message):
+                        
+                        Text(message ?? "An error occurred.")
+                    }
+                        
+                    /*    switch controller.isLoading {
                             
                         case true:
                             ProgressView("Cargando Peliculas")
@@ -65,10 +109,9 @@ struct ContentView: View {
                             }
                         
                         
-                    }
+                    } */
                     
-                    NextButtom(page: 0)
-                    
+                
                     Spacer()
                     
                     ToolBarHeaderView(controller: tapBarController)

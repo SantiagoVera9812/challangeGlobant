@@ -8,22 +8,39 @@
 import Foundation
 import SwiftUI
 
+
+enum UiState<T>: Equatable {
+  case initial
+  case loading
+  case empty
+  case success(value: T)
+  case businessError(_ code: Int, _ message: String?)
+    
+  static func == (lhs: UiState<T>, rhs: UiState<T>) -> Bool {
+      switch (lhs, rhs) {
+      case (.initial, .initial),
+         (.loading, .loading),
+         (.empty, .empty),
+         (.success(value: _), .success(value: _)):
+        return true
+          
+      case (.businessError(let lhsCode, let lhsMessage), .businessError(let rhsCode, let rhsMessage)):
+        return lhsCode == rhsCode && lhsMessage == rhsMessage
+          
+      default:
+        return false
+      }
+    }
+}
+
 class MovieViewController: ObservableObject {
     
-    @Published var movieList: [MovieResponse]? = nil
-    @Published var movieDetails: MovieDetailsResponse? = nil {
-        willSet {
-            print(newValue as Any)
-            
-        }
-    }
-    @Published var isLoading: Bool = false
-    @Published var errormESSAGE: String? = nil
+    @Published var movieListState: UiState<[MovieResponse]> = .initial
+    @Published var movieDetails: UiState<MovieDetailsResponse> = .initial 
     
-
     init(){
         
-        fetchMovieList(language: "en")
+        fetchMovieList(page: 1, language: "en")
         
     }
     
@@ -33,16 +50,13 @@ class MovieViewController: ObservableObject {
            return movieService.getAsyncImage(posterPath: posterPath)
        }
     
-    func fetchMovieList(language: String) {
+    func fetchMovieList(page: Int, language: String) {
         
-        isLoading = true
-        errormESSAGE = nil
+        movieListState = .loading
         
-        movieService.getMoviesList(language: language) { [weak self] movieListResponse in
+        movieService.getMoviesList(page: page, language: language) { [weak self] movieListResponse in
             
             DispatchQueue.main.async{
-                
-                self?.isLoading = false
                 
                 if let movies = movieListResponse {
                     
@@ -53,11 +67,11 @@ class MovieViewController: ObservableObject {
                         listMoviesResponse.append(movieFound)
                     }
                     
-                    self?.movieList = listMoviesResponse
+                    self?.movieListState = .success(value: listMoviesResponse)
                     
                 } else {
                     
-                    self?.errormESSAGE = "Couldnt fetch movie list"
+                    self?.movieListState = .businessError(0, "Couldnt fetch movie list")
                     
                 }
             }
@@ -67,22 +81,20 @@ class MovieViewController: ObservableObject {
     
     func fetchMovieDetailsList(idMovie: Int, language: String) {
         
-        isLoading = true
-        errormESSAGE = nil
+        movieDetails = .loading
         
         movieService.getMovieDetails(idMovie: idMovie, language: language) {[weak self] movieListResponse in
             
             DispatchQueue.main.async{
                 
-                self?.isLoading = false
                 
                 if let movies = movieListResponse {
                     
-                    self?.movieDetails = movies
+                    self?.movieDetails = .success(value: movies)
                     
                 } else {
                     
-                    self?.errormESSAGE = "Couldn't fetch movies detail"
+                    self?.movieListState = .businessError(0, "Couldnt fetch movie details")
                 }
             }
         }

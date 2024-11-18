@@ -8,17 +8,49 @@
 import Foundation
 import SwiftUI
 
-struct NextButtom: View {
+protocol PageButton: View {
+    var page: Binding<Int> { get }
+    var controller: MovieViewController { get }
+}
+
+struct NextButton: PageButton {
     
-    @State var page: Int
+    var page: Binding<Int>
+    
+    var controller: MovieViewController
     
     var body: some View {
-        
         Button(action: {
-            page += 1
+            page.wrappedValue += 1
+            controller.fetchMovieList(page: page.wrappedValue, language: "en")
             print(page)
         }) {
             Text("Next")
+        }
+    }
+}
+
+struct BeforeButton: PageButton {
+    
+    var page: Binding<Int>
+    
+    var controller: MovieViewController
+    
+    var body: some View {
+        
+        if page.wrappedValue > 1 {
+            Button(action: {
+                
+                    page.wrappedValue -= 1
+                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
+                    print(page)
+                
+            }) {
+                Text("Back")
+            }
+        } else {
+            
+            EmptyView()
         }
     }
 }

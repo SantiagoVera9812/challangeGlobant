@@ -13,9 +13,9 @@ import SwiftUI
 
 class MovieService {
     
-    func getMoviesList(language: String, completion: @escaping (MovieListResponse?) -> Void){
+    func getMoviesList(page: Int, language: String, completion: @escaping (MovieListResponse?) -> Void){
         
-        guard let weatherURL = Constants.Urls.urlForMovieList(languague: language) else { return}
+        guard let weatherURL = Constants.Urls.urlForMovieList(page: page, languague: language) else { return}
         
         let weatherResource = Resource<MovieListResponse>(url: weatherURL){
             

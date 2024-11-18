@@ -72,6 +72,8 @@ struct MovieImageDetails: View {
                     HStack {
                         
                         MoviePosterView(posterPath: posterPath, controller: imageController)
+                            .scaledToFit()
+                            
                             
                         
                         VStack(alignment: .leading) {
