@@ -36,7 +36,8 @@ enum UiState<T>: Equatable {
 class MovieViewController: ObservableObject {
     
     @Published var movieListState: UiState<[MovieResponse]> = .initial
-    @Published var movieDetails: UiState<MovieDetailsResponse> = .initial 
+    @Published var movieDetails: UiState<MovieDetailsResponse> = .initial
+    
     
     init(){
         

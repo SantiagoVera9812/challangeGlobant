@@ -16,7 +16,7 @@ struct ContentView: View {
     @State private var detailsText: String = "This is some details text."
     @ObservedObject var controller = MovieViewController()
     @ObservedObject var tapBarController = ToolBarViewController()
-    @State private var page: Int = 0
+    @State private var page: Int = 1
     
         var body: some View {
             GeometryReader { geometry in
