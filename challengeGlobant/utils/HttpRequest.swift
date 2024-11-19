@@ -13,9 +13,9 @@ import SwiftUI
 
 class MovieService {
     
-    func getMoviesList(language: String, completion: @escaping (MovieListResponse?) -> Void){
+    func getMoviesList(page: Int, language: String, completion: @escaping (MovieListResponse?) -> Void){
         
-        guard let weatherURL = Constants.Urls.urlForMovieList(languague: language) else { return}
+        guard let weatherURL = Constants.Urls.urlForMovieList(page: page, languague: language) else { return}
         
         let weatherResource = Resource<MovieListResponse>(url: weatherURL){
             
@@ -69,14 +69,16 @@ class MovieService {
     func getAsyncImage(posterPath: String) -> some View {
         if let url = Constants.Urls.urlForMoviePoster(poster_path: posterPath) {
             return AnyView(
-                AsyncImage(url: url) { image in
-                    image
-                        .resizable()
-                        .cornerRadius(8)
-                        .frame(width: 100, height: 150)
-                } placeholder: {
-                    ProgressView()
-                }
+                
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .cornerRadius(8)
+                            .frame(width: 100, height: 150)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                
             )
         } else {
             // Return a placeholder or empty view if the URL is nil

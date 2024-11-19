@@ -14,6 +14,7 @@ struct MovieDetails: View {
     let fechaDeLanzamiento: String
     let posterPath: String
     let overView: String
+    let genres: [Genre]
     let imageController: MovieViewController
     
     var body: some View {
@@ -24,6 +25,8 @@ struct MovieDetails: View {
                 
                 MovieImageDetails(titulo: titulo, voteAvarage: votoAvarage, fechaDeLanzamiento: fechaDeLanzamiento, posterPath: posterPath, imageController: imageController)
                     .frame(height: geometry.size.height * 0.5)
+                
+                GenreListView(genres: genres)
                     
                 
                 Text("Overview")
@@ -72,6 +75,8 @@ struct MovieImageDetails: View {
                     HStack {
                         
                         MoviePosterView(posterPath: posterPath, controller: imageController)
+                            .scaledToFit()
+                            
                             
                         
                         VStack(alignment: .leading) {
@@ -112,6 +117,6 @@ struct MovieImageDetails: View {
 
 #Preview {
     MovieDetails(titulo: "preview", votoAvarage: 7.8, fechaDeLanzamiento: "fecha ", posterPath: "/aosm8NMQ3UyoBVpSxyimorCQykC.jpg",
-                 overView: "" ,
+                 overView: "", genres: [Genre(id: 0, name: "one"), Genre(id: 1, name: "Hello")] ,
                  imageController: MovieViewController())
 }

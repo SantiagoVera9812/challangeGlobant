@@ -8,17 +8,49 @@
 import Foundation
 import SwiftUI
 
-struct NextButtom: View {
+protocol PageButton: View {
+    var page: Binding<Int> { get }
+    var controller: MovieViewController { get }
+}
+
+struct NextButton: PageButton {
     
-    @State var page: Int
+    var page: Binding<Int>
+    
+    var controller: MovieViewController
     
     var body: some View {
-        
         Button(action: {
-            page += 1
+            page.wrappedValue += 1
+            controller.fetchMovieList(page: page.wrappedValue, language: "en")
             print(page)
         }) {
             Text("Next")
+        }
+    }
+}
+
+struct BeforeButton: PageButton {
+    
+    var page: Binding<Int>
+    
+    var controller: MovieViewController
+    
+    var body: some View {
+        
+        if page.wrappedValue > 1 {
+            Button(action: {
+                
+                    page.wrappedValue -= 1
+                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
+                    print(page)
+                
+            }) {
+                Text("Back")
+            }
+        } else {
+            
+            EmptyView()
         }
     }
 }
@@ -90,7 +122,7 @@ struct ToolBarHeaderView: View {
 
 struct StarRatingView: View {
     var rating: Float
-    var maxRating: Float = 10 // Adjusted max rating to 5 for star ratings
+    var maxRating: Float = 10 
     
     var body: some View {
         HStack(spacing: 3) {
@@ -102,4 +134,78 @@ struct StarRatingView: View {
                     }
     }
 }
+
+struct GenreListView: View {
+    
+    let genres: [Genre]
+    
+    var body: some View {
+        
+        HStack {
+                    ForEach(genres.indices, id: \.self) { index in
+                        Text(genres[index].name)
+                        
+                        if index < genres.count - 1 {
+                            Text(".")
+                        }
+                    }
+                }
+                .padding()
+            }
+    }
+
+
+struct HeaderView: PageButton {
+    
+    
+    var page: Binding<Int>
+    
+    
+    var controller: MovieViewController
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            
+            HStack {
+                Button(action: {
+                    
+                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
+                    controller.movieDetails = .initial
+                    
+                }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(.black)
+                        .padding()
+                }
+                
+                
+                Text("Header Title")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.leading, 8)
+                
+                Spacer()
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+                    .padding()
+            }
+            .padding(.horizontal, 25)
+            .padding(.top, 10)
+            .background(Color.white)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+#Preview {
+    
+    @Previewable @State var page: Int = 0
+    
+    var controller = MovieViewController()
+    
+    HeaderView(page: $page, controller: controller)
+}
+    
+    
+
 
