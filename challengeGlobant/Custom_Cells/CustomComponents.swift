@@ -135,3 +135,69 @@ struct StarRatingView: View {
     }
 }
 
+struct GenreListView: View {
+    
+    let genres: [Genre]
+    
+    var body: some View {
+        
+        HStack {
+                    ForEach(genres.indices, id: \.self) { index in
+                        Text(genres[index].name)
+                        
+                        if index < genres.count - 1 {
+                            Text(".")
+                        }
+                    }
+                }
+                .padding()
+            }
+    }
+
+
+struct HeaderView: View {
+    
+    var controller: MovieViewController
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            
+            HStack {
+                Button(action: {
+                    
+                    print("Go Back")
+                }) {
+                    Image(systemName: "arrow.left")
+                        .foregroundColor(.black)
+                        .padding()
+                }
+                
+                
+                Text("Header Title")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding(.leading, 8)
+                
+                Spacer()
+                Image(systemName: "star.fill")
+                    .foregroundColor(.yellow)
+                    .padding()
+            }
+            .padding(.horizontal, 25)
+            .padding(.top, 10)
+            .background(Color.white)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+#Preview {
+    
+    var controller = MovieViewController()
+    
+    HeaderView(controller: controller)
+}
+    
+    
+
+

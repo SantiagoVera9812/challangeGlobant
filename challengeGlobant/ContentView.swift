@@ -59,6 +59,11 @@ struct ContentView: View {
                                         NextButton(page: $page, controller: controller)
                                     }
                         
+                        ToolBarHeaderView(controller: tapBarController)
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .frame(alignment: .bottom)
+                        
                         
                                 
                             }
@@ -71,7 +76,10 @@ struct ContentView: View {
                     case .empty:
                         Text("No movies available.")
                     case .success(let movieDetails):
-                        MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, imageController: controller)
+                        
+                        HeaderView(controller: controller)
+                        
+                        MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, genres: movieDetails.genres, imageController: controller)
                         
                     case .businessError(_, let message):
                         
@@ -114,12 +122,7 @@ struct ContentView: View {
                 
                     Spacer()
                     
-                    ToolBarHeaderView(controller: tapBarController)
-                        .padding()
-                        .background(.ultraThinMaterial)
-                        .frame(alignment: .bottom)
                 
-                    
                 }
                 .padding()
                 

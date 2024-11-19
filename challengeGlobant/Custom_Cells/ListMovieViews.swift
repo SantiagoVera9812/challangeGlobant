@@ -25,21 +25,23 @@ struct ListVerticallyMovieViews: View {
         ScrollView{
             
             VStack {
-                ForEach(listOfMovies, id: \.id) { movieFound in
-                    MovieListViewCell(
-                        id: movieFound.id,
-                        titulo: movieFound.title,
-                        fechaDeLanzamiento: movieFound.release_date,
-                        voteAvarage: movieFound.vote_average,
-                        posterPath: movieFound.poster_path,
-                        imageController: imageController,
-                        controller: onTapController
+                
+                    ForEach(listOfMovies, id: \.id) { movieFound in
+                        MovieListViewCell(
+                            id: movieFound.id,
+                            titulo: movieFound.title,
+                            fechaDeLanzamiento: movieFound.release_date,
+                            voteAvarage: movieFound.vote_average,
+                            posterPath: movieFound.poster_path,
+                            imageController: imageController,
+                            controller: onTapController
+                            
+                        )
                         
-                    )
-                    
-                    Spacer(minLength: 20)
-                    
-                }
+                        Spacer(minLength: 20)
+                        
+                    }
+                
             }
             .scaledToFit()
             
@@ -82,3 +84,12 @@ struct ListHorizontalMovieViews: View {
   }
 }
 
+#Preview{
+    
+    @ObservedObject var controller = MovieViewController()
+    @ObservedObject var tapBarController = ToolBarViewController()
+    
+    var movieResponse = [MovieResponse(id: 0, release_date: "aaaaaa", title: "aaaaaa", vote_average: 8.5, poster_path: "/aosm8NMQ3UyoBVpSxyimorCQykC.jpg")]
+    
+    ListVerticallyMovieViews(listOfMovies: movieResponse, imageController: controller, onTapController: tapBarController)
+}

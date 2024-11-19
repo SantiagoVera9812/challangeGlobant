@@ -81,6 +81,8 @@ class MovieViewController: ObservableObject {
     
     func fetchMovieDetailsList(idMovie: Int, language: String) {
         
+        movieListState = .initial
+        
         movieDetails = .loading
         
         movieService.getMovieDetails(idMovie: idMovie, language: language) {[weak self] movieListResponse in
@@ -89,6 +91,8 @@ class MovieViewController: ObservableObject {
                 
                 
                 if let movies = movieListResponse {
+                    
+                    print(movies.genres)
                     
                     self?.movieDetails = .success(value: movies)
                     
