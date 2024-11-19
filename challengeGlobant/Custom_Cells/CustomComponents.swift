@@ -122,7 +122,7 @@ struct ToolBarHeaderView: View {
 
 struct StarRatingView: View {
     var rating: Float
-    var maxRating: Float = 10 // Adjusted max rating to 5 for star ratings
+    var maxRating: Float = 10 
     
     var body: some View {
         HStack(spacing: 3) {
@@ -155,7 +155,11 @@ struct GenreListView: View {
     }
 
 
-struct HeaderView: View {
+struct HeaderView: PageButton {
+    
+    
+    var page: Binding<Int>
+    
     
     var controller: MovieViewController
     
@@ -165,7 +169,9 @@ struct HeaderView: View {
             HStack {
                 Button(action: {
                     
-                    print("Go Back")
+                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
+                    controller.movieDetails = .initial
+                    
                 }) {
                     Image(systemName: "arrow.left")
                         .foregroundColor(.black)
@@ -193,9 +199,11 @@ struct HeaderView: View {
 
 #Preview {
     
+    @Previewable @State var page: Int = 0
+    
     var controller = MovieViewController()
     
-    HeaderView(controller: controller)
+    HeaderView(page: $page, controller: controller)
 }
     
     

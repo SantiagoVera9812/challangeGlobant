@@ -23,12 +23,8 @@ struct ContentView: View {
                 
                 VStack {
                     
-                  /*  if let movieDetails = controller.movieDetails {
                     
-                        MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, imageController: controller)
-                        
-                    } */
-                    
+                    //Switch case para listar peliculas
                     switch controller.movieListState {
                             case .initial:
                                 EmptyView()
@@ -68,6 +64,8 @@ struct ContentView: View {
                                 
                             }
                     
+                    //Switch case para los detalles de una pelicula
+                    
                     switch controller.movieDetails {
                     case .initial:
                         EmptyView()
@@ -77,7 +75,7 @@ struct ContentView: View {
                         Text("No movies available.")
                     case .success(let movieDetails):
                         
-                        HeaderView(controller: controller)
+                        HeaderView(page: $page, controller: controller)
                         
                         MovieDetails(titulo: movieDetails.title, votoAvarage: movieDetails.vote_average, fechaDeLanzamiento: movieDetails.release_date, posterPath: movieDetails.poster_path, overView: movieDetails.overview, genres: movieDetails.genres, imageController: controller)
                         
@@ -86,40 +84,6 @@ struct ContentView: View {
                         Text(message ?? "An error occurred.")
                     }
                         
-                    /*    switch controller.isLoading {
-                            
-                        case true:
-                            ProgressView("Cargando Peliculas")
-                            
-                        case false:
-                            
-                            if let errormESSAGE = controller.errormESSAGE {
-                                Text(errormESSAGE)
-                                    .foregroundColor(.red)
-                                    .multilineTextAlignment(.center)
-                            } else {
-                                
-                                let listOfMovies = controller.movieList
-                                
-                                // Two types of views to handle how the information is displayed
-                                if(tapBarController.isPhotoActive){
-                                    ListVerticallyMovieViews(listOfMovies: listOfMovies ?? [],
-                                                             imageController: controller,
-                                                             onTapController: controller)
-                                    .padding(10)
-                                    
-                                } else {
-                                    
-                                    ListHorizontalMovieViews(listOfMovies: listOfMovies ?? [], imageController: controller, onTapController: controller)
-                                }
-                                
-                                
-                            }
-                        
-                        
-                    } */
-                    
-                
                     Spacer()
                     
                 
