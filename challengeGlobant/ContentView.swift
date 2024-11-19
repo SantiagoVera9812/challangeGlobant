@@ -10,10 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    
-    
-        @State private var inputText: String = ""
-    @State private var detailsText: String = "This is some details text."
+    @State var inputText: String = ""
     @ObservedObject var controller = MovieViewController()
     @ObservedObject var tapBarController = ToolBarViewController()
     @State private var page: Int = 1
@@ -22,8 +19,7 @@ struct ContentView: View {
             GeometryReader { geometry in
                 
                 VStack {
-                    
-                    
+                
                     //Switch case para listar peliculas
                     switch controller.movieListState {
                             case .initial:
@@ -36,9 +32,18 @@ struct ContentView: View {
                                 Text(message ?? "An error occurred.")
                             case .success(let movies):
                         
-                        TextField("Enter something...", text: $inputText)
-                               .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
+                        TextLabelInput(inputText: $inputText)
+                            .onChange(of: inputText) { oldState, newState in
+                                
+                                
+                                let startsInput =     startsWithPattern(in: movies.first?.title, pattern: newState)
+                                
+                                if(startsInput){
+                                    
+                                    print(newState)
+                                }
+                                        }
+                    
                         if(tapBarController.isPhotoActive){
                             ListVerticallyMovieViews(listOfMovies: movies,
                                                      imageController: controller,
@@ -51,8 +56,20 @@ struct ContentView: View {
                         }
                         
                         HStack {
-                                        BeforeButton(page: $page, controller: controller)
-                                        NextButton(page: $page, controller: controller)
+                            
+                            //Se agrego este switch para verificar que el usuario no se vaya mas de lo permitido
+                            
+                            switch controller.totalMoviees {
+                            
+                            case .success(let value):
+                                BeforeButton(page: $page, controller: controller)
+                                NextButton(page: $page, totalResponses: value, controller: controller)
+                            case .businessError( _, let message):
+                                Text(message ?? "An error occurred.")
+                            default:
+                                Text("No total")
+                            }
+                                        
                                     }
                         
                         ToolBarHeaderView(controller: tapBarController)

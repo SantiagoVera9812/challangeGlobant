@@ -16,16 +16,25 @@ protocol PageButton: View {
 struct NextButton: PageButton {
     
     var page: Binding<Int>
+    var totalResponses: Int
     
     var controller: MovieViewController
     
     var body: some View {
-        Button(action: {
-            page.wrappedValue += 1
-            controller.fetchMovieList(page: page.wrappedValue, language: "en")
-            print(page)
-        }) {
-            Text("Next")
+        
+        if page.wrappedValue < totalResponses {
+            Button(action: {
+                
+                    page.wrappedValue += 1
+                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
+                    print(page)
+                
+            }) {
+                Text("Next")
+            }
+        } else {
+            
+            EmptyView()
         }
     }
 }
@@ -159,6 +168,7 @@ struct HeaderView: PageButton {
     
     
     var page: Binding<Int>
+    @State private var isItAFavourite: Bool = false
     
     
     var controller: MovieViewController
@@ -179,15 +189,20 @@ struct HeaderView: PageButton {
                 }
                 
                 
-                Text("Header Title")
+                Text("Detalles")
                     .font(.headline)
                     .foregroundColor(.black)
                     .padding(.leading, 8)
                 
                 Spacer()
-                Image(systemName: "star.fill")
+                Image(systemName: isItAFavourite ? "star.fill" : "star")
                     .foregroundColor(.yellow)
                     .padding()
+                    .onTapGesture {
+                        
+                        isItAFavourite.toggle()
+                        
+                    }
             }
             .padding(.horizontal, 25)
             .padding(.top, 10)
@@ -197,13 +212,25 @@ struct HeaderView: PageButton {
     }
 }
 
+struct TextLabelInput: View {
+    
+    @Binding var inputText: String
+    
+    
+    var body: some View {
+        
+        TextField("Enter something...", text: $inputText)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+    }
+}
+
 #Preview {
     
-    @Previewable @State var page: Int = 0
+    @Previewable @State var inputText: String = ""
     
-    var controller = MovieViewController()
     
-    HeaderView(page: $page, controller: controller)
+    TextLabelInput(inputText: $inputText)
 }
     
     

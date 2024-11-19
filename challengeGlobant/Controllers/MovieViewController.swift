@@ -38,6 +38,8 @@ class MovieViewController: ObservableObject {
     @Published var movieListState: UiState<[MovieResponse]> = .initial
     @Published var movieDetails: UiState<MovieDetailsResponse> = .initial
     
+    @Published var totalMoviees: UiState<Int> = .initial
+    
     
     init(){
         
@@ -60,6 +62,8 @@ class MovieViewController: ObservableObject {
             DispatchQueue.main.async{
                 
                 if let movies = movieListResponse {
+                    
+                    self?.totalMoviees = .success(value: movies.total_pages)
                     
                     var listMoviesResponse: [MovieResponse] = []
                     
