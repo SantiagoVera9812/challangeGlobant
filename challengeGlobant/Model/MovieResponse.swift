@@ -24,19 +24,4 @@ struct MovieResponse: Decodable {
     
 }
 
-struct MovieDetailsResponse: Decodable{
-    
-    let title: String
-    let status: String
-    let vote_average: Float
-    let release_date: String
-    var overview: String
-    let genres: [Genre]
-    let poster_path: String
-}
 
-struct Genre: Decodable{
-    
-    let id: Int
-    let name: String
-}

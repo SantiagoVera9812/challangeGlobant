@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+//Navegation Factory SwiftUI
 
 enum UiState<T>: Equatable {
   case initial
@@ -33,6 +34,7 @@ enum UiState<T>: Equatable {
     }
 }
 
+//View Controller swiftui
 class MovieViewController: ObservableObject {
     
     @Published var movieListState: UiState<[MovieResponse]> = .initial
@@ -111,7 +113,7 @@ class MovieViewController: ObservableObject {
     
     func defautlMovieDetailsValue() -> MovieDetailsResponse {
         
-        return MovieDetailsResponse(title: "", status: "", vote_average: 0.0, release_date: "", overview: "", genres: [], poster_path: "")
+        return MovieDetailsResponse(id: 1, title: "", status: "", vote_average: 0.0, release_date: "", overview: "", genres: [], poster_path: "")
         
     }
 }

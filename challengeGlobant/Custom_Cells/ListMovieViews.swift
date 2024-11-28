@@ -51,7 +51,7 @@ struct ListVerticallyMovieViews: View {
 }
 
 struct ListHorizontalMovieViews: View {
-  let listOfMovies: [MovieResponse]
+    let listOfMovies: [MovieResponse]
   let imageController: MovieViewController
   let onTapController: MovieViewController
   // Define the number of columns for the grid
@@ -89,7 +89,7 @@ struct ListHorizontalMovieViews: View {
     @ObservedObject var controller = MovieViewController()
     @ObservedObject var tapBarController = ToolBarViewController()
     
-    var movieResponse = [MovieResponse(id: 0, release_date: "aaaaaa", title: "aaaaaa", vote_average: 8.5, poster_path: "/aosm8NMQ3UyoBVpSxyimorCQykC.jpg")]
+    var movieResponse = [MovieResponse(id: 1, release_date: "", title: "", vote_average: 1.2, poster_path: "")]
     
     ListVerticallyMovieViews(listOfMovies: movieResponse, imageController: controller, onTapController: tapBarController)
 }

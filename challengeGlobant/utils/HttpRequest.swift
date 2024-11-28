@@ -10,6 +10,7 @@ import SwiftUI
 
 
 //Funciones para usar las URLS vistas
+//Protocol
 
 class MovieService {
     
@@ -17,55 +18,18 @@ class MovieService {
         
         guard let weatherURL = Constants.Urls.urlForMovieList(page: page, languague: language) else { return}
         
-        let weatherResource = Resource<MovieListResponse>(url: weatherURL){
-            
-            data in
-            
-            let weatherResponse = try?
-            JSONDecoder().decode(MovieListResponse.self, from: data)
-            
-            return weatherResponse
-        }
-        
-        WebService().load(resource: weatherResource){
-            
-            result in
-            if let movieResponse = result {
-                completion(movieResponse)
-            } else {
-                completion(nil)
-            }
-        }
-        
+        urlMovieService(weatherURL: weatherURL, completion: completion)
     }
     
-    func getMovieDetails(idMovie: Int, language: String, completion: @escaping (MovieDetailsResponse?) -> Void) {
+    func getMovieDetails(idMovie: Int, language: String = "en", completion: @escaping (MovieDetailsResponse?) -> Void) {
         
-        //Valor de ID chinomatico para probar las respuestas del URL
-        guard let weatherURL = Constants.Urls.urlForMovieIDDetails(idMovie: idMovie, languague: language) else {return}
+            guard let movieDetailsURL = Constants.Urls.urlForMovieIDDetails(idMovie: idMovie, languague: language) else { return }
         
-        let weatherResource = Resource<MovieDetailsResponse>(url: weatherURL) {
-            
-            data in
-            
-            let weatherResponse = try?
-            JSONDecoder().decode(MovieDetailsResponse.self, from: data)
-            
-            return weatherResponse
+        urlMovieService(weatherURL: movieDetailsURL, completion: completion)
             
         }
-        
-        WebService().load(resource: weatherResource){
-            
-            result in
-            if let movieResponse = result {
-                completion(movieResponse)
-            } else {
-                completion(nil)
-            }
-        }
-    }
     
+    //Mover a una capa de vista
     func getAsyncImage(posterPath: String) -> some View {
         if let url = Constants.Urls.urlForMoviePoster(poster_path: posterPath) {
             return AnyView(
@@ -87,4 +51,23 @@ class MovieService {
     }
     
 
+}
+
+extension MovieService {
+    
+    private func urlMovieService<T: Decodable>(weatherURL: URL, completion: @escaping (T?) -> Void) {
+            let weatherResource = Resource<T>(url: weatherURL) { data in
+    
+                return try? JSONDecoder().decode(T.self, from: data)
+            }
+            
+            WebService().load(resource: weatherResource) { result in
+                if let response = result {
+                    completion(response)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
+    
 }
