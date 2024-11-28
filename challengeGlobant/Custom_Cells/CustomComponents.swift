@@ -8,12 +8,12 @@
 import Foundation
 import SwiftUI
 
-protocol PageButton: View {
+protocol PageButtonProtocol: View {
     var page: Binding<Int> { get }
     var controller: MovieViewController { get }
 }
 
-struct NextButton: PageButton {
+struct NextButton: PageButtonProtocol {
     
     var page: Binding<Int>
     var totalResponses: Int
@@ -39,7 +39,7 @@ struct NextButton: PageButton {
     }
 }
 
-struct BeforeButton: PageButton {
+struct BeforeButton: PageButtonProtocol {
     
     var page: Binding<Int>
     
@@ -48,14 +48,12 @@ struct BeforeButton: PageButton {
     var body: some View {
         
         if page.wrappedValue > 1 {
-            Button(action: {
+            TextButton(label: "Before"){
                 
-                    page.wrappedValue -= 1
-                    controller.fetchMovieList(page: page.wrappedValue, language: "en")
-                    print(page)
+                page.wrappedValue += -1
+                controller.fetchMovieList(page: page.wrappedValue, language: "en")
                 
-            }) {
-                Text("Back")
+                
             }
         } else {
             
@@ -75,7 +73,7 @@ struct MoviePosterView: View {
     }
 }
 
-
+//for
 struct ToolBarHeaderView: View {
     
     @ObservedObject var controller: ToolBarViewController
@@ -164,7 +162,7 @@ struct GenreListView: View {
     }
 
 
-struct HeaderView: PageButton {
+struct HeaderView: PageButtonProtocol {
     
     
     var page: Binding<Int>
@@ -212,6 +210,7 @@ struct HeaderView: PageButton {
     }
 }
 
+//app theme
 struct TextLabelInput: View {
     
     @Binding var inputText: String
@@ -234,5 +233,16 @@ struct TextLabelInput: View {
 }
     
     
-
+struct TextButton: View {
+    
+    let label: String
+    let action: () -> Void
+    var body: some View {
+        
+        Button(action: {action()}) {
+            Text(label)
+        }
+        
+    }
+}
 
